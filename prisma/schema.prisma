@@ -21,8 +21,8 @@ enum Role {
 
 model User {
   id        String      @id @default(uuid())
-  firstName String
-  lastName  String
+  name String
+  profileImage  String
   role      Role
   email     String      @unique
   password  String
