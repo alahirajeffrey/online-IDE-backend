@@ -3,10 +3,12 @@ version: '3.8'
 services:
   mysql:
     image: mysql
+    restart: always
     environment:
       - MYSQL_ROOT_PASSWORD=password
-      - MYSQL_DATABASE=database
-      - MYSQL_USER=tvzcorp
+      - MYSQL_DATABASE=tvzcorp
+      - MYSQL_USER=mysql
+      - MYSQL_PASSWORD=password
     ports:
       - '3306:3306'
 
