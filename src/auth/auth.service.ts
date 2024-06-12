@@ -1,4 +1,10 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Inject,
+  Injectable,
+  Logger,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PrismaService } from 'src/prisma.client';
 import { RegisterUserDto } from './dto/register-user.dto';
@@ -9,6 +15,9 @@ import { JwtService } from '@nestjs/jwt';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { RegisterAdminDto } from './dto/register-admin.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
+// import { InjectLogger } from 'nest-winston';
+// @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
 
 @Injectable()
 export class AuthService {
@@ -16,6 +25,8 @@ export class AuthService {
     private prismaService: PrismaService,
     private config: ConfigService,
     private jwtService: JwtService,
+    // @InjectLogger() private readonly logger: LoggerService,
+    @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
   ) {}
 
   /**
@@ -59,6 +70,7 @@ export class AuthService {
 
       return { statusCode: HttpStatus.CREATED, data: newUser };
     } catch (error) {
+      this.logger.error(error);
       throw new HttpException(
         error.message,
         error.status || HttpStatus.INTERNAL_SERVER_ERROR,
@@ -107,6 +119,7 @@ export class AuthService {
 
       return { statusCode: HttpStatus.OK, data: { accessToken: accessToken } };
     } catch (error) {
+      this.logger.error(error);
       throw new HttpException(
         error.message,
         error.status || HttpStatus.INTERNAL_SERVER_ERROR,
@@ -152,6 +165,7 @@ export class AuthService {
         message: 'password changed successful',
       };
     } catch (error) {
+      this.logger.error(error);
       throw new HttpException(
         error.message,
         error.status || HttpStatus.INTERNAL_SERVER_ERROR,
@@ -208,6 +222,7 @@ export class AuthService {
 
       return { statusCode: HttpStatus.CREATED, data: newAdmin };
     } catch (error) {
+      this.logger.error(error);
       throw new HttpException(
         error.message,
         error.status || HttpStatus.INTERNAL_SERVER_ERROR,
@@ -224,6 +239,7 @@ export class AuthService {
 
       return { statusCode: HttpStatus.OK, message: 'user profile updated' };
     } catch (error) {
+      this.logger.error(error);
       throw new HttpException(
         error.message,
         error.status || HttpStatus.INTERNAL_SERVER_ERROR,

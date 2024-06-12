@@ -1,4 +1,11 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Inject,
+  Injectable,
+  Logger,
+} from '@nestjs/common';
+import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 import { PrismaService } from 'src/prisma.client';
 import { ApiResponse } from 'src/types/response.type';
@@ -8,6 +15,7 @@ export class UploadService {
   constructor(
     private prismaService: PrismaService,
     private cloudinaryService: CloudinaryService,
+    @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
   ) {}
 
   /**
@@ -34,6 +42,7 @@ export class UploadService {
 
       return { statusCode: HttpStatus.CREATED, data: profilePictureDetails };
     } catch (error) {
+      this.logger.error(error);
       throw new HttpException(
         error.message,
         error.status || HttpStatus.INTERNAL_SERVER_ERROR,

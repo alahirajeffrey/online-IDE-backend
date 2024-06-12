@@ -1,12 +1,22 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Inject,
+  Injectable,
+  Logger,
+} from '@nestjs/common';
 import { PrismaService } from 'src/prisma.client';
 import { CreateProblemDto } from './dto/create-problem.dto';
 import { ApiResponse } from 'src/types/response.type';
 import { UpdateProblemDto } from './dto/update-problem.dto';
+import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 
 @Injectable()
 export class ProblemsService {
-  constructor(private prismaService: PrismaService) {}
+  constructor(
+    private prismaService: PrismaService,
+    @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
+  ) {}
 
   /**
    * helper function to check if user is admin
@@ -28,6 +38,7 @@ export class ProblemsService {
 
       return;
     } catch (error) {
+      this.logger.error(error);
       throw new HttpException(
         error.message,
         error.status || HttpStatus.INTERNAL_SERVER_ERROR,
@@ -61,6 +72,7 @@ export class ProblemsService {
 
       return { statusCode: HttpStatus.CREATED, data: newProblem };
     } catch (error) {
+      this.logger.error(error);
       throw new HttpException(
         error.message,
         error.status || HttpStatus.INTERNAL_SERVER_ERROR,
@@ -81,6 +93,7 @@ export class ProblemsService {
 
       return { statusCode: HttpStatus.OK, data: problem };
     } catch (error) {
+      this.logger.error(error);
       throw new HttpException(
         error.message,
         error.status || HttpStatus.INTERNAL_SERVER_ERROR,
@@ -98,28 +111,36 @@ export class ProblemsService {
     page: number = 1,
     limit: number = 10,
   ): Promise<ApiResponse> {
-    // todo: cache problems
-    const offset = (page - 1) * limit;
+    try {
+      // todo: cache problems
+      const offset = (page - 1) * limit;
 
-    const problems = await this.prismaService.problem.findMany({
-      skip: offset,
-      take: limit,
-    });
+      const problems = await this.prismaService.problem.findMany({
+        skip: offset,
+        take: limit,
+      });
 
-    const totalProblems = await this.prismaService.problem.count();
+      const totalProblems = await this.prismaService.problem.count();
 
-    return {
-      statusCode: HttpStatus.OK,
-      data: {
-        problems,
-        pagination: {
-          totalItems: totalProblems,
-          currentPage: page,
-          itemsPerPage: limit,
-          totalPages: Math.ceil(totalProblems / limit),
+      return {
+        statusCode: HttpStatus.OK,
+        data: {
+          problems,
+          pagination: {
+            totalItems: totalProblems,
+            currentPage: page,
+            itemsPerPage: limit,
+            totalPages: Math.ceil(totalProblems / limit),
+          },
         },
-      },
-    };
+      };
+    } catch (error) {
+      this.logger.error(error);
+      throw new HttpException(
+        error.message,
+        error.status || HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 
   /**
@@ -153,6 +174,7 @@ export class ProblemsService {
 
       return { statusCode: HttpStatus.OK, data: updatedProblem };
     } catch (error) {
+      this.logger.error(error);
       throw new HttpException(
         error.message,
         error.status || HttpStatus.INTERNAL_SERVER_ERROR,
