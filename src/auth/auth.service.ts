@@ -158,9 +158,51 @@ export class AuthService {
     }
   }
 
-  async registerAdmin(dto: RegisterAdminDto) {
+  /**
+   * register an admin user
+   * @param dto : register admin dto with email, name and password
+   * @param email : old admin email
+   * @returns : status code and new admin details
+   */
+  async registerAdmin(dto: RegisterAdminDto, email: string) {
     try {
-      console.log(dto);
+      // check to see if user exists
+      const user = await this.prismaService.user.findFirst({
+        where: { email: email },
+      });
+
+      // ensure only admins can create other admins
+      if (user.role !== 'ADMIN') {
+        throw new HttpException(
+          'only an admin can add another admin',
+          HttpStatus.UNAUTHORIZED,
+        );
+      }
+
+      // hash password
+      const passwordHash = await bcrypt.hash(dto.password, 12);
+
+      // create admin
+      const newAdmin = await this.prismaService.user.create({
+        data: {
+          name: dto.name,
+          password: passwordHash,
+          role: 'ADMIN',
+          email: dto.email,
+          profileImage: '', // use empty string as profile pic as admin can update details later and add profile picture
+        },
+        select: {
+          id: true,
+          email: true,
+          role: true,
+          profileImage: true,
+          name: true,
+          createdAt: true,
+          updatedAt: true,
+        },
+      });
+
+      return { statusCode: HttpStatus.CREATED, data: newAdmin };
     } catch (error) {
       throw new HttpException(
         error.message,

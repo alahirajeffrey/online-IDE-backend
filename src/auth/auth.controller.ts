@@ -32,9 +32,11 @@ export class AuthController {
     return this.authService.changePassword(dto, req.user.email);
   }
 
+  @UseGuards(JwtGuard)
+  @ApiSecurity('JWT-auth')
   @Post('/admin/register')
   @ApiOperation({ summary: 'Register an admin' })
-  registerAdmin(@Body() dto: RegisterAdminDto) {
-    return this.authService.registerAdmin(dto);
+  registerAdmin(@Body() dto: RegisterAdminDto, @Req() req) {
+    return this.authService.registerAdmin(dto, req.user.email);
   }
 }
