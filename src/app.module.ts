@@ -10,6 +10,7 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { ProblemsModule } from './problems/problems.module';
 import { winstonConfig } from './logger';
+import { SubmissionsModule } from './submissions/submissions.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { winstonConfig } from './logger';
     ]),
     ProblemsModule,
     winstonConfig,
+    SubmissionsModule,
   ],
   controllers: [UploadController],
   providers: [
