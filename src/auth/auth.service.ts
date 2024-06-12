@@ -113,9 +113,43 @@ export class AuthService {
     }
   }
 
-  async changePassword(dto: ChangePasswordDto) {
+  /**
+   * change password
+   * @param dto : change password dto with old and new password
+   * @param email : user email
+   * @returns : status code and message
+   */
+  async changePassword(
+    dto: ChangePasswordDto,
+    email: string,
+  ): Promise<ApiResponse> {
     try {
-      console.log(dto);
+      // check to see if user exists
+      const user = await this.prismaService.user.findFirst({
+        where: { email: email },
+      });
+
+      // check if old password is correct
+      const isPasswordCorrect = await bcrypt.compare(
+        dto.oldPassword,
+        user.password,
+      );
+
+      if (!isPasswordCorrect) {
+        throw new HttpException('incorrect password', HttpStatus.UNAUTHORIZED);
+      }
+
+      // hash new password and update password
+      const newPasswordHash = await bcrypt.hash(dto.newPassword, 12);
+      await this.prismaService.user.update({
+        where: { email: email },
+        data: { password: newPasswordHash },
+      });
+
+      return {
+        statusCode: HttpStatus.OK,
+        message: 'password changed successful',
+      };
     } catch (error) {
       throw new HttpException(
         error.message,

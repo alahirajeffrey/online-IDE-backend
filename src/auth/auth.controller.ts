@@ -1,10 +1,11 @@
-import { Body, Controller, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Patch, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiSecurity, ApiTags } from '@nestjs/swagger';
 import { RegisterUserDto } from './dto/register-user.dto';
 import { LoginDto } from './dto/login.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { RegisterAdminDto } from './dto/register-admin.dto';
+import { JwtGuard } from './guards/jwt.guard';
 
 @ApiTags('auth-endpoints')
 @Controller('auth')
@@ -23,10 +24,12 @@ export class AuthController {
     return this.authService.login(dto);
   }
 
+  @UseGuards(JwtGuard)
+  @ApiSecurity('JWT-auth')
   @Patch('change-password')
   @ApiOperation({ summary: 'changer user password' })
-  changePassword(@Body() dto: ChangePasswordDto) {
-    return this.authService.changePassword(dto);
+  changePassword(@Body() dto: ChangePasswordDto, @Req() req) {
+    return this.authService.changePassword(dto, req.user.email);
   }
 
   @Post('/admin/register')
