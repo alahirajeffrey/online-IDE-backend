@@ -8,6 +8,11 @@ import { UpdateProblemDto } from './dto/update-problem.dto';
 export class ProblemsService {
   constructor(private prismaService: PrismaService) {}
 
+  /**
+   * helper function to check if user is admin
+   * @param email : email of user
+   * @returns status code and error message if user is not admin
+   */
   private async checkIfUserIsAdmin(email: string) {
     try {
       const user = await this.prismaService.user.findFirst({
@@ -30,6 +35,12 @@ export class ProblemsService {
     }
   }
 
+  /**
+   * create a coding problem
+   * @param dto : create problem dto with title, description, expected output and input fields
+   * @param email : email of user creating problem
+   * @returns : status code and problem details
+   */
   async createProblem(
     dto: CreateProblemDto,
     email: string,
@@ -57,6 +68,11 @@ export class ProblemsService {
     }
   }
 
+  /**
+   * get problem details by id
+   * @param problemId : id of problem
+   * @returns : status code and problem details
+   */
   async getProblemById(problemId: string): Promise<ApiResponse> {
     try {
       const problem = await this.prismaService.problem.findFirst({
@@ -72,12 +88,47 @@ export class ProblemsService {
     }
   }
 
-  async getAllProblems(): Promise<ApiResponse> {
-    const problems = await this.prismaService.problem.findMany({});
+  /**
+   * get all problems with pagination
+   * @param page - current page number
+   * @param limit - number of items per page
+   * @returns status code and list of available problems
+   */
+  async getAllProblems(
+    page: number = 1,
+    limit: number = 10,
+  ): Promise<ApiResponse> {
+    // todo: cache problems
+    const offset = (page - 1) * limit;
 
-    return { statusCode: HttpStatus.OK, data: problems };
+    const problems = await this.prismaService.problem.findMany({
+      skip: offset,
+      take: limit,
+    });
+
+    const totalProblems = await this.prismaService.problem.count();
+
+    return {
+      statusCode: HttpStatus.OK,
+      data: {
+        problems,
+        pagination: {
+          totalItems: totalProblems,
+          currentPage: page,
+          itemsPerPage: limit,
+          totalPages: Math.ceil(totalProblems / limit),
+        },
+      },
+    };
   }
 
+  /**
+   * update a problem
+   * @param problemId : id of problem
+   * @param dto : create problem dto with title, description, expected output and input fields
+   * @param email : email of user
+   * @returns: status code and object containing update problem
+   */
   async updateProblem(
     problemId: string,
     dto: UpdateProblemDto,

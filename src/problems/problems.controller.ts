@@ -5,6 +5,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   Req,
   UseGuards,
 } from '@nestjs/common';
@@ -35,8 +36,8 @@ export class ProblemsController {
 
   @Get('')
   @ApiOperation({ summary: 'get all problems ' })
-  getAllProblems() {
-    return this.problemService.getAllProblems();
+  getAllProblems(@Query('page') page: number, @Query('limit') limit: number) {
+    return this.problemService.getAllProblems(Number(page), Number(limit));
   }
 
   @Patch(':problemId')
