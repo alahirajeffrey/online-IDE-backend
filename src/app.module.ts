@@ -9,6 +9,7 @@ import { PrismaService } from './prisma.client';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { ProblemsModule } from './problems/problems.module';
+import { winstonConfig } from './logger';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { ProblemsModule } from './problems/problems.module';
       },
     ]),
     ProblemsModule,
+    winstonConfig,
   ],
   controllers: [UploadController],
   providers: [
