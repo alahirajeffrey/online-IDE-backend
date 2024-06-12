@@ -2,9 +2,13 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
+import * as csurf from 'csurf';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  // setup protection from Cross-site request forgery attack
+  app.use(csurf());
 
   // setup input validation
   app.useGlobalPipes(
@@ -13,6 +17,9 @@ async function bootstrap() {
       transform: true,
     }),
   );
+
+  // setup cors
+  app.enableCors();
 
   // add api global prefix
   app.setGlobalPrefix('api/v1');
