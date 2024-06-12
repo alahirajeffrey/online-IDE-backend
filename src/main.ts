@@ -2,13 +2,13 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
-import * as csurf from 'csurf';
+// import * as csurf from 'csurf';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   // setup protection from Cross-site request forgery attack
-  app.use(csurf());
+  // app.use(csurf());
 
   // setup input validation
   app.useGlobalPipes(
@@ -39,7 +39,7 @@ async function bootstrap() {
       },
       'JWT-auth',
     )
-    .addTag('TVZ Corp')
+    // .addTag('TVZ Corp')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/v1/doc', app, document);
