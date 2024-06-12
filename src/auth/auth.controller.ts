@@ -6,6 +6,7 @@ import { LoginDto } from './dto/login.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { RegisterAdminDto } from './dto/register-admin.dto';
 import { JwtGuard } from './guards/jwt.guard';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @ApiTags('auth-endpoints')
 @Controller('auth')
@@ -27,16 +28,24 @@ export class AuthController {
   @UseGuards(JwtGuard)
   @ApiSecurity('JWT-auth')
   @Patch('change-password')
-  @ApiOperation({ summary: 'changer user password' })
+  @ApiOperation({ summary: 'change user password' })
   changePassword(@Body() dto: ChangePasswordDto, @Req() req) {
     return this.authService.changePassword(dto, req.user.email);
   }
 
   @UseGuards(JwtGuard)
   @ApiSecurity('JWT-auth')
-  @Post('/admin/register')
+  @Post('admin/register')
   @ApiOperation({ summary: 'Register an admin' })
   registerAdmin(@Body() dto: RegisterAdminDto, @Req() req) {
     return this.authService.registerAdmin(dto, req.user.email);
+  }
+
+  @UseGuards(JwtGuard)
+  @ApiSecurity('JWT-auth')
+  @Patch('user')
+  @ApiOperation({ summary: 'update user profile' })
+  updateUser(@Body() dto: UpdateUserDto, @Req() req) {
+    return this.authService.updateUser(dto, req.user.email);
   }
 }

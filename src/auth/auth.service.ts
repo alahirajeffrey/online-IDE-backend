@@ -8,6 +8,7 @@ import { LoginDto } from './dto/login.dto';
 import { JwtService } from '@nestjs/jwt';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { RegisterAdminDto } from './dto/register-admin.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -164,7 +165,10 @@ export class AuthService {
    * @param email : old admin email
    * @returns : status code and new admin details
    */
-  async registerAdmin(dto: RegisterAdminDto, email: string) {
+  async registerAdmin(
+    dto: RegisterAdminDto,
+    email: string,
+  ): Promise<ApiResponse> {
     try {
       // check to see if user exists
       const user = await this.prismaService.user.findFirst({
@@ -203,6 +207,22 @@ export class AuthService {
       });
 
       return { statusCode: HttpStatus.CREATED, data: newAdmin };
+    } catch (error) {
+      throw new HttpException(
+        error.message,
+        error.status || HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  async updateUser(dto: UpdateUserDto, email: string): Promise<ApiResponse> {
+    try {
+      await this.prismaService.user.update({
+        where: { email: email },
+        data: { name: dto.name, profileImage: dto.profilePicture },
+      });
+
+      return { statusCode: HttpStatus.OK, message: 'user profile updated' };
     } catch (error) {
       throw new HttpException(
         error.message,
