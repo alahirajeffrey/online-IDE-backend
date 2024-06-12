@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  mysql:
+  tvzcorp-db:
     image: mysql
     restart: always
     env_file:
@@ -11,6 +11,15 @@ services:
     volumes:
       - mysql-data:/var/lib/mysql
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  tvzcorp-backend:
+    build: .
+    ports:
+      - '3000:3000'
+    depends_on:
+      - mysql
+    env_file:
+      - .env
 
 volumes:
   mysql-data:
