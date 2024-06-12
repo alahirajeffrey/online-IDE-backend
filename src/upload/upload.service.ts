@@ -10,8 +10,18 @@ export class UploadService {
     private cloudinaryService: CloudinaryService,
   ) {}
 
+  /**
+   * upload a file to cloudinary using helper function and save details to db
+   * @param file : file to be uploaded
+   * @returns : status code and data of saved profile picture
+   */
   async uploadProfilePicture(file: Express.Multer.File): Promise<ApiResponse> {
     try {
+      // check to see if file is an image
+      if (file.mimetype !== 'image/jpeg' && file.mimetype !== 'image/png') {
+        throw new HttpException('incorrect file type', HttpStatus.BAD_REQUEST);
+      }
+
       // upload file to cloudinary
       const uploadedProfilePicture =
         await this.cloudinaryService.imageUploadHelper(file);
