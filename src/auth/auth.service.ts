@@ -16,8 +16,6 @@ import { ChangePasswordDto } from './dto/change-password.dto';
 import { RegisterAdminDto } from './dto/register-admin.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
-// import { InjectLogger } from 'nest-winston';
-// @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
 
 @Injectable()
 export class AuthService {
@@ -25,7 +23,6 @@ export class AuthService {
     private prismaService: PrismaService,
     private config: ConfigService,
     private jwtService: JwtService,
-    // @InjectLogger() private readonly logger: LoggerService,
     @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
   ) {}
 
@@ -230,6 +227,12 @@ export class AuthService {
     }
   }
 
+  /**
+   * update user name and profile picture
+   * @param dto : update user dto with name and profile picture fields
+   * @param email : email of user
+   * @returns : status code and message
+   */
   async updateUser(dto: UpdateUserDto, email: string): Promise<ApiResponse> {
     try {
       await this.prismaService.user.update({
