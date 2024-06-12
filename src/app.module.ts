@@ -8,6 +8,7 @@ import { UploadService } from './upload/upload.service';
 import { PrismaService } from './prisma.client';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
+import { ProblemsModule } from './problems/problems.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { APP_GUARD } from '@nestjs/core';
         limit: 20,
       },
     ]),
+    ProblemsModule,
   ],
   controllers: [UploadController],
   providers: [
