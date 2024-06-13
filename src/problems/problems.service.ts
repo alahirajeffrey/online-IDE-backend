@@ -112,7 +112,7 @@ export class ProblemsService {
     limit: number = 10,
   ): Promise<ApiResponse> {
     try {
-      // todo: cache problems
+      // paginate result
       const offset = (page - 1) * limit;
 
       const problems = await this.prismaService.problem.findMany({
