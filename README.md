@@ -39,3 +39,8 @@ Create e a simple application that allows the user to complete/solve programming
 # Lincense
 
 This project is available for use under the MIT License.
+
+## Todo
+
+- fix pagination
+- update status field in database schema

@@ -56,7 +56,6 @@ model Submission {
   id          String    @id @default(uuid())
   sourceCode  String
   languageId  Int
-  status      String? // change to an enum
   result      String?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
