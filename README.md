@@ -30,6 +30,12 @@ Create e a simple application that allows the user to complete/solve programming
 - However, for now only javascript and python have been tested and only javascript seems to work. Currently prioritizing other parts of the app. Will come back to it later.
 - You can use language ID of 93 for javascript. As code is passed as text in the request body which is JSON, use `''` when you are using strings in your code to avoid a `Bad Request` error.
 
+## How to Run Tests
+
+- To run tests, Open your terminal and navigate to the root directoy of the app.
+- Simply install the dependencies using `npm install`.
+- Then run the command `npm run test:watch` in your terminal to run the unit tests for the services.
+
 # Author
 
 [Alahira Jeffrey](<(https://github.com/alahirajeffrey)>)
@@ -42,8 +48,5 @@ This project is available for use under the MIT License.
 
 - fix pagination: test fix made
 - Add two problems from hackerrank or leetcode
-- Write unit test for problem services
-- Write unit test for submission services
-- Write unit test for upload services
 - Ensure that once a user solves a problem, statistic we stop taking statistics
 - deploy to render
