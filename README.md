@@ -42,7 +42,6 @@ This project is available for use under the MIT License.
 
 - fix pagination: test fix made
 - Add two problems from hackerrank or leetcode
-- Write unit test for auth services
 - Write unit test for problem services
 - Write unit test for submission services
 - Write unit test for upload services
