@@ -40,6 +40,7 @@ export class SubmissionsService {
         );
       }
 
+      // get details of the problem
       const problem = await this.prismaService.problem.findFirst({
         where: { id: dto.problemId },
       });
@@ -90,6 +91,7 @@ export class SubmissionsService {
             getSubmissionResponse.data.status.id === 3 ? 'PASSED' : 'FAILED',
           user: { connect: { id: userId } },
           problem: { connect: { id: dto.problemId } },
+          // submissionToken: createSubmissionRespone.data.token,
         },
       });
       return { statusCode: HttpStatus.CREATED, data: submission };
@@ -158,7 +160,6 @@ export class SubmissionsService {
     email: string,
   ): Promise<ApiResponse> {
     try {
-      console.log('here');
       const userSubmissions = await this.prismaService.submission.findMany({
         where: { problemId: problemId, user: { email: email } },
       });
