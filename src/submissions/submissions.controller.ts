@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { SubmissionsService } from './submissions.service';
 import { ApiOperation, ApiSecurity, ApiTags } from '@nestjs/swagger';
-import { JwtGuard } from 'src/auth/guards/jwt.guard';
+import { JwtGuard } from '../auth/guards/jwt.guard';
 import { CreateSubmissionDto } from './dto/create-submission.dto';
 
 @ApiTags('submission-endpoints')
