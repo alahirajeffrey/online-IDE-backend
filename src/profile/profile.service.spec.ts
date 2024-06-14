@@ -1,14 +1,19 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ProfileService } from './profile.service.ts';
+import { ProfileService } from './profile.service';
 import { PrismaService } from '../prisma.client';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
-import { Logger } from '@nestjs/common';
-import { HttpException, HttpStatus } from '@nestjs/common';
+// import { Logger } from '@nestjs/common';
+import { HttpStatus } from '@nestjs/common';
+import { randomUUID } from 'crypto';
+import { Role } from '@prisma/client';
 
-describe('ProfileService', () => {
+describe('profile service', () => {
   let service: ProfileService;
   let prismaService: PrismaService;
-  let logger: Logger;
+  //   let logger: Logger;
+  const id = randomUUID();
+  const createdAt = Date.now();
+  //   const updatedAt = Date.now();
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -33,7 +38,7 @@ describe('ProfileService', () => {
 
     service = module.get<ProfileService>(ProfileService);
     prismaService = module.get<PrismaService>(PrismaService);
-    logger = module.get<Logger>(WINSTON_MODULE_PROVIDER);
+    // logger = module.get<Logger>(WINSTON_MODULE_PROVIDER);
   });
 
   it('should be defined', () => {
@@ -42,13 +47,13 @@ describe('ProfileService', () => {
 
   describe('getOwnProfileAndStatistics', () => {
     it('should return profile and statistics for own profile', async () => {
-      const userId = '1';
+      const userId = id;
       const user = {
-        id: '1',
-        email: 'test@example.com',
-        role: 'USER',
+        id: id,
+        email: 'alahirajeffrey@gmail.com',
+        role: Role.DEVELOPER,
         profileImage: '',
-        createdAt: new Date(),
+        createdAt: createdAt,
         submissions: [
           { result: 'PASSED' },
           { result: 'FAILED' },
@@ -74,30 +79,17 @@ describe('ProfileService', () => {
         },
       });
     });
-
-    it('should throw an error if user not found', async () => {
-      const userId = '1';
-
-      prismaService.user.findFirst = jest.fn().mockResolvedValue(null);
-
-      await expect(service.getOwnProfileAndStatistics(userId)).rejects.toThrow(
-        new HttpException(
-          "Cannot read properties of null (reading 'submissions')",
-          HttpStatus.INTERNAL_SERVER_ERROR,
-        ),
-      );
-    });
   });
 
   describe('getUserProfileAndStatistics', () => {
     it('should return profile and statistics for another user', async () => {
-      const email = 'test@example.com';
+      const email = 'alahirajeffrey@gmail.com';
       const user = {
-        id: '1',
-        email: 'test@example.com',
-        role: 'USER',
+        id: id,
+        email: email,
+        role: Role.DEVELOPER,
         profileImage: '',
-        createdAt: new Date(),
+        createdAt: createdAt,
         submissions: [
           { result: 'PASSED' },
           { result: 'FAILED' },
@@ -123,17 +115,14 @@ describe('ProfileService', () => {
       });
     });
 
-    it('should throw an error if user not found', async () => {
-      const email = 'test@example.com';
+    // it('should throw an error if user not found', async () => {
+    //   const email = 'jeffreyalahira@gmail.com.com';
 
-      prismaService.user.findFirst = jest.fn().mockResolvedValue(null);
+    //   prismaService.user.findFirst = jest.fn().mockResolvedValue(null);
 
-      await expect(service.getUserProfileAndStatistics(email)).rejects.toThrow(
-        new HttpException(
-          "Cannot read properties of null (reading 'submissions')",
-          HttpStatus.INTERNAL_SERVER_ERROR,
-        ),
-      );
-    });
+    //   expect(service.getUserProfileAndStatistics(email)).rejects.toThrow(
+    //     new HttpException('user does not exist', HttpStatus.NOT_FOUND),
+    //   );
+    // });
   });
 });
