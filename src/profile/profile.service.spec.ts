@@ -45,7 +45,7 @@ describe('profile service', () => {
     expect(service).toBeDefined();
   });
 
-  describe('getOwnProfileAndStatistics', () => {
+  describe('get own profile and statistics', () => {
     it('should return profile and statistics for own profile', async () => {
       const userId = id;
       const user = {
@@ -81,7 +81,7 @@ describe('profile service', () => {
     });
   });
 
-  describe('getUserProfileAndStatistics', () => {
+  describe('get user profile and statistics', () => {
     it('should return profile and statistics for another user', async () => {
       const email = 'alahirajeffrey@gmail.com';
       const user = {
