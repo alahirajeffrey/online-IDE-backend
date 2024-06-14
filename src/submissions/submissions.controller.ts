@@ -20,11 +20,11 @@ export class SubmissionsController {
 
   @UseGuards(JwtGuard)
   @ApiSecurity('JWT-auth')
-  @Get('problem/:problemId/user/:email')
+  @Get('problem/other/:problemId/')
   @ApiOperation({ summary: 'get all submissions for a problem made by a user' })
   getUsersSubmission(
     @Param('problemId') problemId: string,
-    @Param('email') email: string,
+    @Query('email') email: string,
   ) {
     return this.submissionService.getUsersSubmission(problemId, email);
   }
@@ -43,13 +43,18 @@ export class SubmissionsController {
   })
   getAllSubmissionsForAProblem(
     @Param('problemId') problemId: string,
-    @Query('page') page: number = 1,
-    @Query('limit') limit: number = 10,
+    @Query('page') page?: number,
+    @Query('limit') limit?: number,
   ) {
+    const pageNumber = page ? Number(page) : 1;
+    const limitNumber = limit ? Number(limit) : 10;
+
     return this.submissionService.getAllSubmissionsForAProblem(
       problemId,
-      Number(page),
-      Number(limit),
+      // Number(page),
+      pageNumber,
+      // Number(limit),
+      limitNumber,
     );
   }
 
