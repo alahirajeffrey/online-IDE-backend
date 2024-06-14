@@ -11,7 +11,7 @@ export class ProfileController {
   @UseGuards(JwtGuard)
   @ApiSecurity('JWT-auth')
   @Get('own')
-  @ApiOperation({ summary: 'get own profile along with statictics' })
+  @ApiOperation({ summary: 'get own profile along with statistics' })
   getOwnProfileAndStatistics(@Req() req) {
     return this.profileService.getOwnProfileAndStatistics(req.user.userId);
   }
@@ -19,7 +19,7 @@ export class ProfileController {
   @UseGuards(JwtGuard)
   @ApiSecurity('JWT-auth')
   @Get('other')
-  @ApiOperation({ summary: 'get other user profile along with statictics' })
+  @ApiOperation({ summary: 'get other user profile along with statistics' })
   getUserProfileAndStatistics(@Query('email') email: string) {
     return this.profileService.getUserProfileAndStatistics(email);
   }
