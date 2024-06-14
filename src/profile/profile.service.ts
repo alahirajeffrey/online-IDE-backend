@@ -23,7 +23,7 @@ export class ProfileService {
    * @returns : number of submissions, percentage passed and percentage failed
    */
   private calculateStatistics(submissions: Submission[]) {
-    let numberOfSubmissionFailed;
+    let numberOfSubmissionFailed = 0;
     submissions.map((submission) => {
       if (submission.result === 'FAILED') {
         numberOfSubmissionFailed++;
