@@ -13,8 +13,6 @@ describe('AuthService', () => {
   let service: AuthService;
   let prismaService: PrismaService;
   let jwtService: JwtService;
-  //   let configService: ConfigService;
-  //   let logger: Logger;
 
   const createdAt = Date.now();
   const updatedAt = Date.now();
@@ -58,8 +56,6 @@ describe('AuthService', () => {
     service = module.get<AuthService>(AuthService);
     prismaService = module.get<PrismaService>(PrismaService);
     jwtService = module.get<JwtService>(JwtService);
-    // configService = module.get<ConfigService>(ConfigService);
-    // logger = module.get<Logger>(WINSTON_MODULE_PROVIDER);
   });
 
   it('should be defined', () => {
