@@ -29,6 +29,17 @@ export class SubmissionsService {
     userId: string,
   ): Promise<ApiResponse> {
     try {
+      // ensure only developers can make submissions to problems
+      const user = await this.prismaService.user.findFirst({
+        where: { id: userId },
+      });
+      if (user.role !== 'DEVELOPER') {
+        throw new HttpException(
+          'only developers can make submissions',
+          HttpStatus.UNAUTHORIZED,
+        );
+      }
+
       const problem = await this.prismaService.problem.findFirst({
         where: { id: dto.problemId },
       });
