@@ -91,7 +91,7 @@ export class SubmissionsService {
             getSubmissionResponse.data.status.id === 3 ? 'PASSED' : 'FAILED',
           user: { connect: { id: userId } },
           problem: { connect: { id: dto.problemId } },
-          // submissionToken: createSubmissionRespone.data.token,
+          submissionToken: createSubmissionRespone.data.token,
         },
       });
       return { statusCode: HttpStatus.CREATED, data: submission };
