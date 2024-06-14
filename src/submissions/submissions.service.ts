@@ -7,8 +7,8 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
-import { PrismaService } from 'src/prisma.client';
-import { ApiResponse } from 'src/types/response.type';
+import { PrismaService } from '../prisma.client';
+import { ApiResponse } from '../types/response.type';
 import { CreateSubmissionDto } from './dto/create-submission.dto';
 import axios from 'axios';
 

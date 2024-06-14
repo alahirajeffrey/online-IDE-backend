@@ -6,9 +6,9 @@ import {
   Logger,
 } from '@nestjs/common';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
-import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
-import { PrismaService } from 'src/prisma.client';
-import { ApiResponse } from 'src/types/response.type';
+import { CloudinaryService } from '../cloudinary/cloudinary.service';
+import { PrismaService } from '../prisma.client';
+import { ApiResponse } from '../types/response.type';
 
 @Injectable()
 export class UploadService {

@@ -5,7 +5,7 @@ import {
   Injectable,
   Logger,
 } from '@nestjs/common';
-import { PrismaService } from 'src/prisma.client';
+import { PrismaService } from '../prisma.client';
 import { CreateProblemDto } from './dto/create-problem.dto';
 import { ApiResponse } from 'src/types/response.type';
 import { UpdateProblemDto } from './dto/update-problem.dto';
