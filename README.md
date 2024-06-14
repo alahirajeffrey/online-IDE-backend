@@ -40,11 +40,12 @@ This project is available for use under the MIT License.
 
 ## Todo
 
-- fix pagination
-- add endpoint to return user's profile along with stats such as the number of submissions made and success/failure percentage
+- fix pagination: test fix made
+- test profile endpoints
 - Add two problems from hackerrank or leetcode
 - Run migrations
 - Write unit test for auth services
 - Write unit test for problem services
 - Write unit test for submission services
 - Write unit test for upload services
+- Ensure that once a user solves a problem, statistic we stop taking statistics
