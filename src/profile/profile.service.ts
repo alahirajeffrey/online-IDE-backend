@@ -7,8 +7,8 @@ import {
 } from '@nestjs/common';
 import { Submission } from '@prisma/client';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
-import { PrismaService } from 'src/prisma.client';
-import { ApiResponse } from 'src/types/response.type';
+import { PrismaService } from '../prisma.client';
+import { ApiResponse } from '../types/response.type';
 
 @Injectable()
 export class ProfileService {
