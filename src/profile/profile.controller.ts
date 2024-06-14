@@ -1,6 +1,6 @@
 import { Controller, Get, Query, Req, UseGuards } from '@nestjs/common';
 import { ProfileService } from './profile.service';
-import { JwtGuard } from 'src/auth/guards/jwt.guard';
+import { JwtGuard } from '../auth/guards/jwt.guard';
 import { ApiOperation, ApiSecurity, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('profile-endpoints')
