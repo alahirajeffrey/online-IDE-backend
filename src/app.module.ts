@@ -11,6 +11,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { ProblemsModule } from './problems/problems.module';
 import { winstonConfig } from './logger';
 import { SubmissionsModule } from './submissions/submissions.module';
+import { ProfileModule } from './profile/profile.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { SubmissionsModule } from './submissions/submissions.module';
     ProblemsModule,
     winstonConfig,
     SubmissionsModule,
+    ProfileModule,
   ],
   controllers: [UploadController],
   providers: [
