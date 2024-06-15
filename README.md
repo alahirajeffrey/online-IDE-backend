@@ -9,6 +9,12 @@ Create e a simple application that allows the user to complete/solve programming
 - [Docker](https://www.docker.com/) is a platform designed to help developers build, share, and run container applications.
 - [Docker compose](https://docs.docker.com/compose/) is a tool for defining and running multi-container applications. It simplifies the control of your entire application stack, making it easy to manage services, networks, and volumes in a single, comprehensible YAML configuration file. Then, with a single command, you create and start all the services from your configuration file.
 
+## Entity Relationship Diagram
+
+![Project ERD](./assets/prisma-erd.jpg)
+
+-
+
 ## How to Setup Locally
 
 - Ensure you have node, docker and docker compose installed
@@ -28,7 +34,7 @@ Create e a simple application that allows the user to complete/solve programming
 - In order to solve a problem, you can navigate to the submissions section.
 - The available languages to solve a problem and their language IDs can be found [here](https://ce.judge0.com/languages/).
 - Here are the language IDs for a few popular langauges: `Javascript : 93`, `Python : 71`, `Golang : 95`, `C++ : 52`
-- Using python can be a bit tricky due to the fact that it uses indentation.
+- Using python can be a bit tricky due to the fact that it uses indentation. Also rember to log to STDOUT and not return. Judge0 does not seems to make reservations for that
 - As the submitted source code is passed as a text in the request body which is JSON, use '' and not "" when you are using strings in your code to avoid a `Bad Request` error. Check example below
 
 **Use**

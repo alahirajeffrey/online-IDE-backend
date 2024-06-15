@@ -56,6 +56,11 @@ export class SubmissionsService {
         createSubmissionOptions,
       );
 
+      console.log('Submission created:', createSubmissionRespone.data);
+
+      // Add a delay before fetching the result
+      await new Promise((resolve) => setTimeout(resolve, 3000)); // 5 seconds delay
+
       // get submission token from the response and make get request to check result
       const getSubmissionOptions = {
         method: 'GET',
@@ -70,6 +75,7 @@ export class SubmissionsService {
         },
       };
       const getSubmissionResponse = await axios.request(getSubmissionOptions);
+      console.log('Submission created:', getSubmissionResponse.data);
 
       return { createSubmissionRespone, getSubmissionResponse };
     } catch (error) {
