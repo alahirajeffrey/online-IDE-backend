@@ -11,9 +11,10 @@ import {
 } from '@nestjs/common';
 import { ProblemsService } from './problems.service';
 import { ApiOperation, ApiSecurity, ApiTags } from '@nestjs/swagger';
-import { JwtGuard } from 'src/auth/guards/jwt.guard';
+import { JwtGuard } from '../auth/guards/jwt.guard';
 import { CreateProblemDto } from './dto/create-problem.dto';
 import { UpdateProblemDto } from './dto/update-problem.dto';
+import { PaginationDto } from './dto/pagination.dto';
 
 @ApiTags('problem-endpoints')
 @Controller('problems')
@@ -36,15 +37,15 @@ export class ProblemsController {
 
   @Get('')
   @ApiOperation({ summary: 'get all problems ' })
-  getAllProblems(@Query('page') page: number, @Query('limit') limit: number) {
-    return this.problemService.getAllProblems(Number(page), Number(limit));
+  getAllProblems(@Query() dto: PaginationDto) {
+    return this.problemService.getAllProblems(dto);
   }
 
   @Patch(':problemId')
   @UseGuards(JwtGuard)
   @ApiSecurity('JWT-auth')
   @ApiOperation({ summary: 'update a problem ' })
-  updatePproblem(
+  updateProblem(
     @Param('problemId') problemId: string,
     @Body() dto: UpdateProblemDto,
     @Req() req,
