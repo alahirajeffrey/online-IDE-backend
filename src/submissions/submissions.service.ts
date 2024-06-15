@@ -37,7 +37,7 @@ export class SubmissionsService {
       // make a post request to judge0 to create a submission on their platform
       const createSubmissionOptions = {
         method: 'POST',
-        url: 'https://judge0-ce.p.rapidapi.com/submissions',
+        url: 'https://judge0-ce.p.rapidapi.com/submissions/?base64_encoded=true',
         params: { fields: '*' },
         headers: {
           'x-rapidapi-key': this.rapidApiKey,
