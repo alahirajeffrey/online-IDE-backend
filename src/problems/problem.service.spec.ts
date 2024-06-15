@@ -7,6 +7,7 @@ import { CreateProblemDto } from './dto/create-problem.dto';
 import { UpdateProblemDto } from './dto/update-problem.dto';
 import { Role } from '@prisma/client';
 import { randomUUID } from 'crypto';
+import { PaginationDto } from './dto/pagination.dto';
 
 describe('ProblemsService', () => {
   let service: ProblemsService;
@@ -133,7 +134,8 @@ describe('ProblemsService', () => {
       prismaService.problem.findMany = jest.fn().mockResolvedValue(problems);
       prismaService.problem.count = jest.fn().mockResolvedValue(2);
 
-      const result = await service.getAllProblems(1, 2);
+      const paginationDto: PaginationDto = { page: 1, pageSize: 2 };
+      const result = await service.getAllProblems(paginationDto);
       expect(result).toEqual({
         statusCode: HttpStatus.OK,
         data: {

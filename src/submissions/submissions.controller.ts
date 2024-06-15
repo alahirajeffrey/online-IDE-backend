@@ -12,6 +12,7 @@ import { SubmissionsService } from './submissions.service';
 import { ApiOperation, ApiSecurity, ApiTags } from '@nestjs/swagger';
 import { JwtGuard } from '../auth/guards/jwt.guard';
 import { CreateSubmissionDto } from './dto/create-submission.dto';
+import { PaginationDto } from '../problems/dto/pagination.dto';
 
 @ApiTags('submission-endpoints')
 @Controller('submissions')
@@ -43,19 +44,9 @@ export class SubmissionsController {
   })
   getAllSubmissionsForAProblem(
     @Param('problemId') problemId: string,
-    @Query('page') page?: number,
-    @Query('limit') limit?: number,
+    @Query() dto: PaginationDto,
   ) {
-    const pageNumber = page ? Number(page) : 1;
-    const limitNumber = limit ? Number(limit) : 10;
-
-    return this.submissionService.getAllSubmissionsForAProblem(
-      problemId,
-      // Number(page),
-      pageNumber,
-      // Number(limit),
-      limitNumber,
-    );
+    return this.submissionService.getAllSubmissionsForAProblem(problemId, dto);
   }
 
   @UseGuards(JwtGuard)

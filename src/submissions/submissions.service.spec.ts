@@ -8,6 +8,7 @@ import { CreateSubmissionDto } from './dto/create-submission.dto';
 import axios from 'axios';
 import { randomUUID } from 'crypto';
 import { Role } from '@prisma/client';
+import { PaginationDto } from 'src/problems/dto/pagination.dto';
 
 jest.mock('axios');
 
@@ -186,10 +187,10 @@ describe('SubmissionsService', () => {
         .mockResolvedValue(submissions);
       prismaService.submission.count = jest.fn().mockResolvedValue(2);
 
+      const paginationDto: PaginationDto = { page: 1, pageSize: 2 };
       const result = await service.getAllSubmissionsForAProblem(
         problemId,
-        1,
-        2,
+        paginationDto,
       );
       expect(result).toEqual({
         statusCode: HttpStatus.OK,
