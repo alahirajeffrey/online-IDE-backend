@@ -34,8 +34,7 @@ Create e a simple application that allows the user to complete/solve programming
 - In order to solve a problem, you can navigate to the submissions section.
 - The available languages to solve a problem and their language IDs can be found [here](https://ce.judge0.com/languages/).
 - Here are the language IDs for a few popular langauges: `Javascript : 93`, `Python : 71`, `Golang : 95`, `C++ : 52`
-- Using python can be a bit tricky due to the fact that it uses indentation. Also rember to log to STDOUT and not return. Judge0 does not seems to make reservations for that
-- As the submitted source code is passed as a text in the request body which is JSON, use '' and not "" when you are using strings in your code to avoid a `Bad Request` error. Check example below
+-
 
 **Use**
 
