@@ -10,6 +10,7 @@ import { CreateProblemDto } from './dto/create-problem.dto';
 import { ApiResponse } from 'src/types/response.type';
 import { UpdateProblemDto } from './dto/update-problem.dto';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
+import { PaginationDto } from './dto/pagination.dto';
 
 @Injectable()
 export class ProblemsService {
@@ -107,17 +108,14 @@ export class ProblemsService {
    * @param limit - number of items per page
    * @returns status code and list of available problems
    */
-  async getAllProblems(
-    page: number = 1,
-    limit: number = 10,
-  ): Promise<ApiResponse> {
+  async getAllProblems(dto: PaginationDto): Promise<ApiResponse> {
     try {
       // paginate result
-      const offset = (page - 1) * limit;
+      const offset = (dto.page - 1) * dto.pageSize;
 
       const problems = await this.prismaService.problem.findMany({
         skip: offset,
-        take: limit,
+        take: dto.pageSize,
       });
 
       const totalProblems = await this.prismaService.problem.count();
@@ -128,9 +126,9 @@ export class ProblemsService {
           problems,
           pagination: {
             totalItems: totalProblems,
-            currentPage: page,
-            itemsPerPage: limit,
-            totalPages: Math.ceil(totalProblems / limit),
+            currentPage: dto.page,
+            itemsPerPage: dto.pageSize,
+            totalPages: Math.ceil(totalProblems / dto.pageSize),
           },
         },
       };

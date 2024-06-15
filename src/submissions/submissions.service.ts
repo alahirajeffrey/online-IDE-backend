@@ -11,6 +11,7 @@ import { PrismaService } from '../prisma.client';
 import { ApiResponse } from '../types/response.type';
 import { CreateSubmissionDto } from './dto/create-submission.dto';
 import axios from 'axios';
+import { PaginationDto } from 'src/problems/dto/pagination.dto';
 
 @Injectable()
 export class SubmissionsService {
@@ -202,12 +203,11 @@ export class SubmissionsService {
    */
   async getAllSubmissionsForAProblem(
     problemId: string,
-    page: number = 1,
-    limit: number = 10,
+    dto: PaginationDto,
   ): Promise<ApiResponse> {
     try {
       // paginate result
-      const offset = (page - 1) * limit;
+      const offset = (dto.page - 1) * dto.pageSize;
 
       // return paginated submissions and the associated problem
       const submissions = await this.prismaService.submission.findMany({
@@ -216,7 +216,7 @@ export class SubmissionsService {
           problem: true,
         },
         skip: offset,
-        take: limit,
+        take: dto.pageSize,
       });
 
       const totalSubmissions = await this.prismaService.submission.count();
@@ -227,9 +227,9 @@ export class SubmissionsService {
           submissions,
           pagination: {
             totalItems: totalSubmissions,
-            currentPage: page,
-            itemsPerPage: limit,
-            totalPages: Math.ceil(totalSubmissions / limit),
+            currentPage: dto.page,
+            itemsPerPage: dto.pageSize,
+            totalPages: Math.ceil(totalSubmissions / dto.pageSize),
           },
         },
       };
