@@ -12,6 +12,7 @@ import { ApiResponse } from '../types/response.type';
 import { CreateSubmissionDto } from './dto/create-submission.dto';
 import axios from 'axios';
 import { PaginationDto } from 'src/problems/dto/pagination.dto';
+import { Problem } from '@prisma/client';
 
 @Injectable()
 export class SubmissionsService {
@@ -25,27 +26,14 @@ export class SubmissionsService {
     this.rapidApiKey = this.configService.get<string>('RAPID_API_KEY');
   }
 
-  async createSubmission(
-    dto: CreateSubmissionDto,
-    userId: string,
-  ): Promise<ApiResponse> {
+  /**
+   * helper function to submit solution to coding problem to judge0
+   * @param dto : create submission dto
+   * @param problem : problem object
+   * @returns :response from judge0
+   */
+  async submitToJudgeZero(dto: CreateSubmissionDto, problem: Problem) {
     try {
-      // ensure only developers can make submissions to problems
-      const user = await this.prismaService.user.findFirst({
-        where: { id: userId },
-      });
-      if (user.role !== 'DEVELOPER') {
-        throw new HttpException(
-          'only developers can make submissions',
-          HttpStatus.UNAUTHORIZED,
-        );
-      }
-
-      // get details of the problem
-      const problem = await this.prismaService.problem.findFirst({
-        where: { id: dto.problemId },
-      });
-
       // make a post request to judge0 to create a submission on their platform
       const createSubmissionOptions = {
         method: 'POST',
@@ -83,7 +71,70 @@ export class SubmissionsService {
       };
       const getSubmissionResponse = await axios.request(getSubmissionOptions);
 
-      // save result gotten from judge0 to db
+      return { createSubmissionRespone, getSubmissionResponse };
+    } catch (error) {
+      this.logger.error(error);
+      throw new HttpException(
+        error.message,
+        error.status || HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  /**
+   * submit a solution to a coding problem
+   * @param dto : create submission dto with source code, language id and problem id fields
+   * @param userId : id of user
+   * @returns : http status code and submission object
+   */
+  async createSubmission(
+    dto: CreateSubmissionDto,
+    userId: string,
+  ): Promise<ApiResponse> {
+    try {
+      // ensure only developers can make submissions to problems
+      const user = await this.prismaService.user.findFirst({
+        where: { id: userId },
+      });
+      if (user.role !== 'DEVELOPER') {
+        throw new HttpException(
+          'only developers can make submissions',
+          HttpStatus.UNAUTHORIZED,
+        );
+      }
+
+      // get details of the problem
+      const problem = await this.prismaService.problem.findFirst({
+        where: { id: dto.problemId },
+        include: { submissions: { where: { userId: userId } } },
+      });
+
+      // loop through past solutions to see if user has solved it before
+      let isProblemSolved: boolean;
+      problem.submissions.map((submission) => {
+        if (submission.result === 'PASSED') {
+          isProblemSolved = true;
+          return;
+        }
+      });
+
+      // if user has solved it before, check if the solution is correct but dont save details to avoid spamming result statistics
+      if (isProblemSolved === true) {
+        const { getSubmissionResponse } = await this.submitToJudgeZero(
+          dto,
+          problem,
+        );
+
+        const result =
+          getSubmissionResponse.data.status.id === 3 ? 'PASSED' : 'FAILED';
+
+        return { statusCode: HttpStatus.OK, data: { result: result } };
+      }
+
+      // if user has not solved before, check solution and save result to db
+      const { createSubmissionRespone, getSubmissionResponse } =
+        await this.submitToJudgeZero(dto, problem);
+
       const submission = await this.prismaService.submission.create({
         data: {
           sourceCode: dto.sourceCode,
