@@ -112,10 +112,13 @@ export class SubmissionsService {
         include: { submissions: { where: { userId: userId } } },
       });
 
-      // loop through past solutions to see if user has solved it before
+      // loop through past solutions to see if user has solved a problem with the same language before
       let isProblemSolved: boolean;
       problem.submissions.map((submission) => {
-        if (submission.result === 'PASSED') {
+        if (
+          submission.result === 'PASSED' &&
+          submission.languageId === dto.languageId
+        ) {
           isProblemSolved = true;
           return;
         }
