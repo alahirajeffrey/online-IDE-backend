@@ -13,7 +13,7 @@ Create e a simple application that allows the user to complete/solve programming
 
 ![Project ERD](./assets/prisma-erd.jpg)
 
--
+- Profile picture table does not have a relation with user's because ideally I wanted to name the table `File` and use it to store the url of media files.
 
 ## How to Setup Locally
 
