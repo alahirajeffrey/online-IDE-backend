@@ -2,12 +2,13 @@
 
 Create e a simple application that allows the user to complete/solve programming tests/problems just like LeetCode or Hackerrank.
 
-### Requirements
+### Tools
 
 - [Nodejs](https://nodejs.org/en/) is a JavaScript runtime built on Chrome's V8 JavaScript engine.
 - [Nestjs](https://nestjs.com/) is a framework for building efficient, scalable Node.js server-side applications. It uses progressive JavaScript, is built with and fully supports TypeScript. Under the hood, Nest makes use of robust HTTP Server frameworks like Express (the default) and optionally can be configured to use Fastify as well!
 - [Docker](https://www.docker.com/) is a platform designed to help developers build, share, and run container applications.
 - [Docker compose](https://docs.docker.com/compose/) is a tool for defining and running multi-container applications. It simplifies the control of your entire application stack, making it easy to manage services, networks, and volumes in a single, comprehensible YAML configuration file. Then, with a single command, you create and start all the services from your configuration file.
+- [Github Actions](https://docs.github.com/en/actions) is a continuous integration and continuous delivery (CI/CD) platform that allows you to automate your build, test, and deployment pipeline right in your repository.
 
 ## Entity Relationship Diagram
 
@@ -60,6 +61,7 @@ As per judge0, the field would have to be converted to base64 and this can only 
 - To run tests, Open your terminal and navigate to the root directoy of the app.
 - Ensure the dependencies are installed and if they are not, install them using `npm install`.
 - Then run the command `npm run test` in your terminal to run the unit tests for the services.
+- You can also check the result of the automated testing pipeline on the github repo to see results of the test
 
 # Author
 
