@@ -15,6 +15,7 @@ async function bootstrap() {
     }),
   );
 
+  // secure application with helmet
   app.use(helmet());
 
   // setup cors
