@@ -8,6 +8,11 @@ export class CreateProblemDto {
   title: string;
 
   @IsString()
+  @IsOptional()
+  @ApiProperty()
+  example: string;
+
+  @IsString()
   @IsNotEmpty()
   @ApiProperty()
   description: string;
