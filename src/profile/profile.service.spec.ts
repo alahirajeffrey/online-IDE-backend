@@ -114,15 +114,5 @@ describe('profile service', () => {
         },
       });
     });
-
-    // it('should throw an error if user not found', async () => {
-    //   const email = 'jeffreyalahira@gmail.com.com';
-
-    //   prismaService.user.findFirst = jest.fn().mockResolvedValue(null);
-
-    //   expect(service.getUserProfileAndStatistics(email)).rejects.toThrow(
-    //     new HttpException('user does not exist', HttpStatus.NOT_FOUND),
-    //   );
-    // });
   });
 });
