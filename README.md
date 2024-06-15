@@ -63,10 +63,3 @@ console.log("hello world")
 # Lincense
 
 This project is available for use under the MIT License.
-
-## Todo
-
-- Add two problems from hackerrank or leetcode
-- Ensure that once a user solves a problem, statistic we stop taking statistics
-- Write unit test for problem controller
-- Write unit test for submission controller
