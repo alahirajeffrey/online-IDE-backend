@@ -34,20 +34,26 @@ Create e a simple application that allows the user to complete/solve programming
 - In order to solve a problem, you can navigate to the submissions section.
 - The available languages to solve a problem and their language IDs can be found [here](https://ce.judge0.com/languages/).
 - Here are the language IDs for a few popular langauges: `Javascript : 93`, `Python : 71`, `Golang : 95`, `C++ : 52`
--
 
-**Use**
+**NB** : The backend on its own cannot currently cannot handle complex programs as majority of complex programs would have source code that contains non printable characters, or characters which cannot be sent with JSON. Example:
 
-```
-use
-console.log('hello world')
-```
-
-**Dont use**
+**Sending**
 
 ```
 console.log("hello world")
 ```
+
+Would throw an error from the BE as the character `"` cannot be sent over JSON. However
+
+**Using**
+
+```
+console.log('hello world')
+```
+
+Would not throw an error.
+
+As per judge0, the field would have to be converted to base64 and this can only be done on the FE after which the BE sends converted fields as bas64 to to the judeg0 api.
 
 ## How to Run Tests
 
