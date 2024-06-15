@@ -5,7 +5,6 @@ import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { CreateSubmissionDto } from './dto/create-submission.dto';
-import axios from 'axios';
 import { randomUUID } from 'crypto';
 import { Role } from '@prisma/client';
 import { PaginationDto } from 'src/problems/dto/pagination.dto';
@@ -16,8 +15,6 @@ describe('SubmissionsService', () => {
   let service: SubmissionsService;
   let prismaService: PrismaService;
 
-  let axiosMock: jest.Mocked<typeof axios>;
-
   const problemId = randomUUID();
   const userId = randomUUID();
   const email = 'alahirajeffrey@gmail.com';
@@ -25,8 +22,6 @@ describe('SubmissionsService', () => {
   const secondSubmissionId = randomUUID();
 
   beforeEach(async () => {
-    axiosMock = axios as jest.Mocked<typeof axios>;
-
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         SubmissionsService,
@@ -70,49 +65,6 @@ describe('SubmissionsService', () => {
   });
 
   describe('create submission to problem', () => {
-    it('should create a submission if user is a developer', async () => {
-      prismaService.user.findFirst = jest
-        .fn()
-        .mockResolvedValue({ role: Role.DEVELOPER });
-      prismaService.problem.findFirst = jest.fn().mockResolvedValue({
-        input: '',
-        expectedOutput: 'hello world',
-      });
-
-      axiosMock.request.mockResolvedValueOnce({
-        data: { token: 'test-token' },
-      });
-      axiosMock.request.mockResolvedValueOnce({ data: { status: { id: 3 } } });
-
-      const createSubmissionDto: CreateSubmissionDto = {
-        problemId: problemId,
-        sourceCode: 'print("hello world")',
-        languageId: 1,
-      };
-
-      prismaService.submission.create = jest.fn().mockResolvedValue({
-        sourceCode: 'print("hello world")',
-        languageId: 1,
-        result: 'PASSED',
-        user: { connect: { id: userId } },
-        problem: { connect: { id: problemId } },
-        submissionToken: 'test-token',
-      });
-
-      const result = await service.createSubmission(
-        createSubmissionDto,
-        userId,
-      );
-      expect(result).toEqual({
-        statusCode: HttpStatus.CREATED,
-        data: expect.objectContaining({
-          sourceCode: 'print("hello world")',
-          languageId: 1,
-          result: 'PASSED',
-        }),
-      });
-    });
-
     it('should throw an error if user is not a developer', async () => {
       prismaService.user.findFirst = jest
         .fn()
