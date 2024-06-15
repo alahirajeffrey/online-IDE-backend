@@ -27,6 +27,16 @@ export class SubmissionsService {
   }
 
   /**
+   * helpwe function to encode a field to base64
+   * @param field : field or text to be encoded
+   * @returns : base64 encoded field
+   */
+  private encodeStringToBase64(field: string) {
+    const encodedField = Buffer.from(field).toString('base64');
+    return encodedField;
+  }
+
+  /**
    * helper function to submit solution to coding problem to judge0
    * @param dto : create submission dto
    * @param problem : problem object
@@ -46,9 +56,11 @@ export class SubmissionsService {
         },
         data: {
           language_id: dto.languageId,
+          // this would be gotten from the FE so it would be encoded from there
           source_code: dto.sourceCode,
-          stdin: problem.input,
-          expected_output: problem.expectedOutput,
+          // the input and expected output would be fotten from the db so it would be encoded from the BE
+          stdin: this.encodeStringToBase64(problem.input),
+          expected_output: this.encodeStringToBase64(problem.expectedOutput),
         },
       };
 
