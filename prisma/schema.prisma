@@ -39,7 +39,8 @@ model User {
 model Problem {
   id              String       @id @default(uuid())
   title           String
-  description     String
+  description     String?      @db.Text
+  example         String?     @db.Text
   expectedOutput  String
   input           String?
   createdAt       DateTime     @default(now())
