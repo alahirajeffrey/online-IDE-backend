@@ -35,7 +35,7 @@ Create e a simple application that allows the user to complete/solve programming
 - The available languages to solve a problem and their language IDs can be found [here](https://ce.judge0.com/languages/).
 - Here are the language IDs for a few popular langauges: `Javascript : 93`, `Python : 71`, `Golang : 95`, `C++ : 52`
 
-**NB** : The backend on its own cannot currently cannot handle complex programs as majority of complex programs would have source code that contains non printable characters, or characters which cannot be sent with JSON. Example:
+**NB** : The backend on its own cannot cannot handle complex programs as majority of complex programs would have source code that contains non printable characters, or characters which cannot be sent with JSON. Example:
 
 **Sending**
 
