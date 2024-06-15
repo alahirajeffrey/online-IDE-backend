@@ -52,6 +52,7 @@ describe('Problems Controller', () => {
         description: 'test description',
         expectedOutput: 'hello world',
         input: '',
+        example: '',
       };
       const req = { user: { email: 'alahirajeffrey@gmail.com' } };
       mockProblemsService.createProblem.mockResolvedValue({

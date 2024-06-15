@@ -84,6 +84,7 @@ describe('ProblemsService', () => {
         description: 'This is just a test problem',
         expectedOutput: 'Test output',
         input: 'Test input',
+        example: '',
       };
 
       prismaService.problem.create = jest
