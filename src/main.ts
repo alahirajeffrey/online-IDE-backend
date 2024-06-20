@@ -20,7 +20,7 @@ async function bootstrap() {
     helmet({
       contentSecurityPolicy: {
         directives: {
-          'script-src': ['self', 'http://localhost:3000/api/v1/doc'],
+          'script-src': ['self'],
         },
       }, // allow only javascript code from origin to run
     }),
