@@ -18,7 +18,11 @@ async function bootstrap() {
   // set http response headers
   app.use(
     helmet({
-      contentSecurityPolicy: { directives: { 'script-src': ['self'] } }, // allow only javascript code from origin to run
+      contentSecurityPolicy: {
+        directives: {
+          'script-src': ['self', 'http://localhost:3000/api/v1/doc'],
+        },
+      }, // allow only javascript code from origin to run
     }),
   );
 

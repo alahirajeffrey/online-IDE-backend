@@ -50,7 +50,7 @@ model Problem {
 
 model Submission {
   id          String    @id @default(uuid())
-  sourceCode  String
+  sourceCode  String    @db.Text
   languageId  Int
   result      RESULT
   submissionToken String  @default("")
