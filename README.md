@@ -10,6 +10,14 @@ Create e a simple application that allows the user to complete/solve programming
 - [Docker compose](https://docs.docker.com/compose/) is a tool for defining and running multi-container applications. It simplifies the control of your entire application stack, making it easy to manage services, networks, and volumes in a single, comprehensible YAML configuration file. Then, with a single command, you create and start all the services from your configuration file.
 - [Github Actions](https://docs.github.com/en/actions) is a continuous integration and continuous delivery (CI/CD) platform that allows you to automate your build, test, and deployment pipeline right in your repository.
 
+## Security
+
+- Authentication
+- Input validation and sanitation
+- Rate limiting
+- Setup security headers and Content Security Policy
+- Setup CORS
+
 ## Entity Relationship Diagram
 
 ![Project ERD](./assets/prisma-erd.jpg)
