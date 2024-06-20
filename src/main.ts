@@ -15,11 +15,15 @@ async function bootstrap() {
     }),
   );
 
-  // secure application with helmet
-  app.use(helmet());
+  // set http response headers
+  app.use(
+    helmet({
+      contentSecurityPolicy: { directives: { 'script-src': ['self'] } }, // allow only javascript code from origin to run
+    }),
+  );
 
   // setup cors
-  app.enableCors();
+  app.enableCors({ origin: process.env.FRONT_END_URL });
 
   // add api global prefix
   app.setGlobalPrefix('api/v1');
