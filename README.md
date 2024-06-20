@@ -30,7 +30,6 @@ Create e a simple application that allows the user to complete/solve programming
 - Clone the repository using `git clone https://github.com/alahirajeffrey/tvzcorp-technical-test.git` then navigate to the cloned repository.
 - Create a .env file and use the variables in the .env.example file as a guide to populate the .env file.
 - Run the command `docker compose up -d` to run mysql and start the app in detached mode i.e. it runs in the background.
-- Once the application is running, navigate to `localhost:3000/api/v1/doc` to access the swagger file and test the enpoints.
 
 ## How to Use
 
@@ -43,6 +42,8 @@ Create e a simple application that allows the user to complete/solve programming
 - In order to solve a problem, you can navigate to the submissions section.
 - The available languages to solve a problem and their language IDs can be found [here](https://ce.judge0.com/languages/).
 - Here are the language IDs for a few popular langauges: `Javascript : 93`, `Python : 71`, `Golang : 95`, `C++ : 52`
+
+**NB** : All the routes have to be preceeded with the base url which is `http://localhost:3000` when running local or `https://tvzcorp-technical-test.onrender.com` when testing online
 
 **NB** : The backend on its own cannot cannot handle complex programs as majority of complex programs would have source code that contains non printable characters, or characters which cannot be sent with JSON. Example:
 
