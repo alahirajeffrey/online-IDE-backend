@@ -35,7 +35,7 @@ Create e a simple application that allows the user to complete/solve programming
 ## How to Use
 
 - If you are runnning the app locally, Once the server has been setup, you can upload a profile picture using the `POST /upload/profile-picture` endpoint and pass the url into the request body of the `POST /auth/register` endpoint to create a new account. You can also leave the profile image with an empty string and upload it via the `PATCH /auth/user` endpoint later on.
-- If you are using the live version of the app, simply navigate to [here](https://tvzcorp-technical-test.onrender.com/api/v1/doc) to access the live swagger file.
+- If you are using the live version of the app, simply navigate [here](https://tvzcorp-technical-test.onrender.com) to access the live swagger file.
 - **NB** You have to register as a DEVELOPER in order to solve the problems and make submissions. Recruiters can register as RECRUITER.
 - After registration, you can then login to your account in order to solve problems.
 - On the swagger page, navigate to the problems section to see the problems available, create and update problems.
