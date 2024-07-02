@@ -27,7 +27,7 @@ async function bootstrap() {
   );
 
   // setup cors
-  app.enableCors({ origin: process.env.FRONT_END_URL });
+ // app.enableCors({ origin: process.env.FRONT_END_URL });
 
   // add api global prefix
   app.setGlobalPrefix('api/v1');
